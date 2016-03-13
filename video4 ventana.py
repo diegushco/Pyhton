@@ -20,6 +20,16 @@ class Ventana(QWidget):
         #cambiar icono
         self.setWindowIcon(QIcon("goku.jpg"))
 
+        #Botones
+        boton = QPushButton("Boton 1", self)
+        boton.setGeometry(0, 0, 90, 40)
+        boton2 = QPushButton("Boton 2", self)
+        boton2.move(100, 0)
+
+        #Etiquetas o labels
+        label = QLabel("<h2>Esto es una etiqueta</h2>", self)
+        label.move(300, 0)
+
 app = QApplication(sys.argv)
 ventana = Ventana()
 ventana.show()
