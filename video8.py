@@ -20,7 +20,16 @@ class Ventana(QWidget):
         #cambiar icono
         self.setWindowIcon(QIcon("goku.jpg"))
 
+        btn_1 = QPushButton("1",self)
+        btn_2 = QPushButton("2",self)
+        btn_3 = QPushButton("3",self)
+        btn_4 = QPushButton("4",self)
 
+        grilla = QGridLayout(self)
+        grilla.addWidget(btn_1, 0, 0)
+        grilla.addWidget(btn_2, 0, 1)
+        grilla.addWidget(btn_3, 1, 0)
+        grilla.addWidget(btn_4, 1, 1)
 
 
 app = QApplication(sys.argv)
