@@ -1,0 +1,10 @@
+[Humano]
+nombre = Diego
+apellido = Guerrero
+edad = 27
+
+[Personal]
+cargo = Sistemas
+titulo = Ingeniero en Informatica
+telefono = 0416-7727604
+equipo = barca
