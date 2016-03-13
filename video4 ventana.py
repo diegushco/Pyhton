@@ -26,6 +26,12 @@ class Ventana(QWidget):
         boton2 = QPushButton("Boton 2", self)
         boton2.move(100, 0)
 
+        lineEdit = QLineEdit()
+
+        otro_boton = QPushButton("Otro boton", self)
+        otro = QPushButton("Otro", self)
+        lineEdit2 = QLineEdit()
+
         #Etiquetas o labels
         label = QLabel("<h2>Esto es una etiqueta</h2>", self)
         label.move(300, 0)
@@ -35,7 +41,17 @@ class Ventana(QWidget):
         layout_horizontal.addWidget(boton)
         layout_horizontal.addWidget(boton2)
         layout_horizontal.addWidget(label)
+        layout_horizontal.addWidget(lineEdit)
         self.setLayout(layout_horizontal)
+
+        #LayoutVertical
+        layout_vertical = QVBoxLayout()
+        layout_vertical.addWidget(otro_boton)
+        layout_vertical.addWidget(otro)
+        layout_vertical.addWidget(lineEdit2)
+
+        layout_horizontal.addLayout(layout_vertical)
+
 
 app = QApplication(sys.argv)
 ventana = Ventana()
