@@ -30,6 +30,13 @@ class Ventana(QWidget):
         label = QLabel("<h2>Esto es una etiqueta</h2>", self)
         label.move(300, 0)
 
+        #Layouts
+        layout_horizontal = QHBoxLayout(self)
+        layout_horizontal.addWidget(boton)
+        layout_horizontal.addWidget(boton2)
+        layout_horizontal.addWidget(label)
+        self.setLayout(layout_horizontal)
+
 app = QApplication(sys.argv)
 ventana = Ventana()
 ventana.show()
