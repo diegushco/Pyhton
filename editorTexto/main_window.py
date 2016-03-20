@@ -4,7 +4,10 @@ from PyQt4.QtGui import (
     QAction,
     QToolBar,
     QIcon,
-    QFileDialog
+    QFileDialog,
+    QMessageBox
+
+
     )
 from PyQt4.QtCore import Qt
 from status_bar import StatusBar
@@ -25,6 +28,7 @@ class MainWindow(QMainWindow):
 
         #Widget central
         self.editor = Editor()
+        self.editor.modificationChanged[bool].connect(self._modificado)
         self.editor.cursorPositionChanged.connect(self._actualizar_status_bar)
         self.setCentralWidget(self.editor)
 
@@ -103,8 +107,27 @@ class MainWindow(QMainWindow):
     def _abrir_archivo(self):
         nombre = QFileDialog.getOpenFileName(self, self.tr("Abrir Archivo"))
         if nombre:
-            with open(nombre) as archivo:
-                contenido = archivo.read()
+            if not self.editor.modificado:
+                self.__abrir_archivo(nombre)
+            else:
+                flags = QMessageBox.Yes
+                flags |= QMessageBox.No
+                flags |= QMessageBox.Cancel
+                r = QMessageBox.information(self, self.tr("Modificado"),
+                     self.tr("No se ha guardado el archivo"),
+                     flags)
+                if r == QMessageBox.Yes:
+                    self._guardar_archivo()
+                    self.__abrir_archivo(nombre)
+                elif r == QMessageBox.No:
+                    self.__abrir_archivo(nombre)
+                else:
+                    return
+
+
+    def __abrir_archivo(self, nombre):
+        with open(nombre) as archivo:
+            contenido = archivo.read()
             self.editor.setPlainText(contenido)
             self.editor.es_nuevo = False
             self.editor.nombre = nombre
@@ -128,3 +151,23 @@ class MainWindow(QMainWindow):
         linea = self.editor.textCursor().blockNumber()
         columna = self.editor.textCursor().columnNumber()
         self.status.actualizar_label(linea, columna)
+
+    def closeEvent(self, evento):
+        flags = QMessageBox.Yes
+        flags |= QMessageBox.No
+        flags |= QMessageBox.Cancel
+        r = QMessageBox.information(self, self.tr("Modificado"),
+             self.tr("Cerrar la aplicacion sin guardar?"),
+             flags)
+        if r == QMessageBox.Yes:
+            self._guardar_archivo()
+        elif r == QMessageBox.No:
+            evento.accept()
+        else:
+            evento.ignore()
+
+    def _modificado(self, valor):
+        if valor:
+            self.editor.modificado = True
+        else:
+            self.editor.modificado = False

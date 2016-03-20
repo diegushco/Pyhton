@@ -9,6 +9,9 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     main = MainWindow()
+    with open('tema.qss', 'r') as f:
+        tema = f.read()
+    app.setStyleSheet(tema)
     main.show()
 
     sys.exit(app.exec_())
