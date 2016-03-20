@@ -1,7 +1,9 @@
 # .*. coding: utf-8
-from PyQt4.QtGui import QplainTextEdit
+from PyQt4.QtGui import QPlainTextEdit
 
-class Editor(QplainTextEdit):
+class Editor(QPlainTextEdit):
 
     def __init__(self):
         super(Editor, self).__init__()
+
+

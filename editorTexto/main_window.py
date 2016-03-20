@@ -1,8 +1,15 @@
 # .*. coding: utf-8
 from PyQt4.QtGui import (
     QMainWindow,
-    QAction
+    QAction,
+    QToolBar,
+    QIcon,
+    QFileDialog
     )
+from PyQt4.QtCore import Qt
+from status_bar import StatusBar
+from editor import Editor
+
 
 class MainWindow(QMainWindow):
 
@@ -11,28 +18,54 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(self.tr("Editor - PyQt4"))
         self.setMinimumSize(700,500)
 
+        #MenuBar
         menu = self.menuBar()
         self.__crear_acciones()
         self.__crear_menu(menu)
 
+        #Widget central
+        self.editor = Editor()
+        self.setCentralWidget(self.editor)
+
+        #ToolBar
+        self.toolbar = QToolBar()
+        self.__crear_toolbar(self.toolbar)
+        #agregamos a la pagina principal el toolbar
+        self.addToolBar(Qt.LeftToolBarArea, self.toolbar)
+
+        #StatusBar
+        self.status = StatusBar()
+        self.setStatusBar(self.status)
+
+        #Conexiones
+        self.abrir.triggered.connect(self._abrir_archivo)
+
     def __crear_acciones(self):
         self.nuevo = QAction("Nuevo", self)
+        self.nuevo.setIcon(QIcon("imagenes/nuevo.png"))
         self.nuevo.setShortcut("Ctrl+N")
         self.abrir = QAction("Abrir", self)
+        self.abrir.setIcon(QIcon("imagenes/abrir.png"))
         self.abrir.setShortcut("Ctrl+O")
         self.guardar = QAction("Guardar", self)
+        self.guardar.setIcon(QIcon("imagenes/guardar.png"))
         self.guardar.setShortcut("Ctrl+S")
         self.guardar_como = QAction("Guardar Como", self)
         self.salir = QAction("Salir", self)
         self.deshacer = QAction("Deshacer", self)
+        self.deshacer.setIcon(QIcon("imagenes/deshacer.png"))
         self.deshacer.setShortcut("Ctrl+Z")
         self.rehacer = QAction("Rehacer", self)
+        self.rehacer.setIcon(QIcon("imagenes/rehacer.png"))
         self.rehacer.setShortcut("Ctrl+Y")
         self.cortar = QAction("Cortar", self)
+        self.cortar.setIcon(QIcon("imagenes/cortar.png"))
         self.cortar.setShortcut("Ctrl+X")
         self.copiar = QAction("Copiar", self)
+        self.copiar.setIcon(QIcon("imagenes/copiar.png"))
         self.copiar.setShortcut("Ctrl+C")
         self.pegar = QAction("Pegar", self)
+        self.pegar.setIcon(QIcon("imagenes/pegar.png"))
         self.pegar.setShortcut("Ctrl+V")
         self.acerca_de = QAction("Acerca de", self)
 
@@ -54,3 +87,20 @@ class MainWindow(QMainWindow):
         menu_editar.addAction(self.pegar)
         menu_ayuda = menu_bar.addMenu("A&yuda")
         menu_ayuda.addAction(self.acerca_de)
+
+    def __crear_toolbar(self, toolbar):
+        toolbar.addAction(self.nuevo)
+        toolbar.addAction(self.abrir)
+        toolbar.addAction(self.guardar)
+        toolbar.addSeparator()
+        toolbar.addAction(self.cortar)
+        toolbar.addAction(self.copiar)
+        toolbar.addAction(self.pegar)
+
+    def _abrir_archivo(self):
+        nombre = QFileDialog.getOpenFileName(self, self.tr("Abrir Archivo"))
+        if nombre:
+            with open(nombre) as archivo:
+                contenido = archivo.read()
+            self.editor.setPlainText(contenido)
+
