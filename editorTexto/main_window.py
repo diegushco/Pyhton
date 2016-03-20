@@ -25,7 +25,9 @@ class MainWindow(QMainWindow):
 
         #Widget central
         self.editor = Editor()
+        self.editor.cursorPositionChanged.connect(self._actualizar_status_bar)
         self.setCentralWidget(self.editor)
+
 
         #ToolBar
         self.toolbar = QToolBar()
@@ -121,3 +123,8 @@ class MainWindow(QMainWindow):
             contenido = self.editor.toPlainText()
             with open(nombre, "w") as archivo:
                 archivo.write(contenido)
+
+    def _actualizar_status_bar(self):
+        linea = self.editor.textCursor().blockNumber()
+        columna = self.editor.textCursor().columnNumber()
+        self.status.actualizar_label(linea, columna)
