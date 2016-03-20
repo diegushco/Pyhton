@@ -39,6 +39,7 @@ class MainWindow(QMainWindow):
 
         #Conexiones
         self.abrir.triggered.connect(self._abrir_archivo)
+        self.guardar.triggered.connect(self._guardar_archivo)
 
     def __crear_acciones(self):
         self.nuevo = QAction("Nuevo", self)
@@ -103,4 +104,20 @@ class MainWindow(QMainWindow):
             with open(nombre) as archivo:
                 contenido = archivo.read()
             self.editor.setPlainText(contenido)
+            self.editor.es_nuevo = False
+            self.editor.nombre = nombre
 
+    def _guardar_archivo(self):
+        if self.editor.es_nuevo:
+            self._guardar_como()
+        else:
+            contenido=self.editor.toPlainText()
+            with open(self.editor.nombre, "w") as archivo:
+                archivo.write(contenido)
+
+    def _guardar_como(self):
+        nombre = QFileDialog.getSaveFileName(self, self.tr("Gardar archivo"))
+        if nombre:
+            contenido = self.editor.toPlainText()
+            with open(nombre, "w") as archivo:
+                archivo.write(contenido)
