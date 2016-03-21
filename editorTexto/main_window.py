@@ -51,6 +51,9 @@ class MainWindow(QMainWindow):
         self.pegar.triggered.connect(self._pegar)
         self.deshacer.triggered.connect(self._deshacer)
         self.rehacer.triggered.connect(self._rehacer)
+        self.guardar_como.triggered.connect(self._guardar_como)
+        self.salir.triggered.connect(self.close)
+
 
     def __crear_acciones(self):
         self.nuevo = QAction("Nuevo", self)
