@@ -28,7 +28,7 @@ class MiniMapa(QPlainTextEdit):
         super(MiniMapa, self).__init__(editor)
         self.editor = editor
         self.setReadOnly(True)
-        self.setStyleSheet("background: transparent; border-radius: 0px;")
+        self.setStyleSheet("background: transparent; border-radius: 0px; color: #A4A4A4; ")
     def actualizar_area(self):
         x = self.editor.width() - self.width()
         altura = self.editor.height()

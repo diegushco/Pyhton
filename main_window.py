@@ -53,7 +53,8 @@ class MainWindow(QMainWindow):
         self.rehacer.triggered.connect(self._rehacer)
         self.guardar_como.triggered.connect(self._guardar_como)
         self.salir.triggered.connect(self.close)
-
+        self.nuevo.triggered.connect(self._nuevo)
+        self.acerca_de.triggered.connect(self._acerca_de)
 
     def __crear_acciones(self):
         self.nuevo = QAction("Nuevo", self)
@@ -194,3 +195,28 @@ class MainWindow(QMainWindow):
 
     def _rehacer(self):
         self.editor.redo()
+
+    def _nuevo(self):
+        if not self.editor.modificado:
+            self.editor.es_nuevo = True
+            self.editor.setPlainText("")
+        else:
+            flags = QMessageBox.Yes
+            flags |= QMessageBox.No
+            flags |= QMessageBox.Cancel
+            r = QMessageBox.information(self, self.tr("Modificado"),
+                 self.tr("No se ha guardado el archivo"),
+                 flags)
+            if r == QMessageBox.Yes:
+                self._guardar_archivo()
+            elif r == QMessageBox.No:
+                self.editor.es_nuevo = True
+                self.editor.setPlainText("")
+            else:
+                return
+
+    def _acerca_de(self):
+        QMessageBox.information(self, self.tr("Realizado por"),
+             "<h2>Ing. Diego Guerrero</h2><h3>Venezuela</h3>" )
+
+
