@@ -49,6 +49,8 @@ class MainWindow(QMainWindow):
         self.cortar.triggered.connect(self._cortar)
         self.copiar.triggered.connect(self._copiar)
         self.pegar.triggered.connect(self._pegar)
+        self.deshacer.triggered.connect(self._deshacer)
+        self.rehacer.triggered.connect(self._rehacer)
 
     def __crear_acciones(self):
         self.nuevo = QAction("Nuevo", self)
@@ -183,3 +185,9 @@ class MainWindow(QMainWindow):
 
     def _pegar(self):
         self.editor.paste()
+
+    def _deshacer(self):
+        self.editor.undo()
+
+    def _rehacer(self):
+        self.editor.redo()
