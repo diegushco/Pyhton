@@ -47,6 +47,8 @@ class MainWindow(QMainWindow):
         self.abrir.triggered.connect(self._abrir_archivo)
         self.guardar.triggered.connect(self._guardar_archivo)
         self.cortar.triggered.connect(self._cortar)
+        self.copiar.triggered.connect(self._copiar)
+        self.pegar.triggered.connect(self._pegar)
 
     def __crear_acciones(self):
         self.nuevo = QAction("Nuevo", self)
@@ -175,3 +177,9 @@ class MainWindow(QMainWindow):
 
     def _cortar(self):
         self.editor.cut()
+
+    def _copiar(self):
+        self.editor.copy()
+
+    def _pegar(self):
+        self.editor.paste()
