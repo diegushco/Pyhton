@@ -46,6 +46,7 @@ class MainWindow(QMainWindow):
         #Conexiones
         self.abrir.triggered.connect(self._abrir_archivo)
         self.guardar.triggered.connect(self._guardar_archivo)
+        self.cortar.triggered.connect(self._cortar)
 
     def __crear_acciones(self):
         self.nuevo = QAction("Nuevo", self)
@@ -171,3 +172,6 @@ class MainWindow(QMainWindow):
             self.editor.modificado = True
         else:
             self.editor.modificado = False
+
+    def _cortar(self):
+        self.editor.cut()
